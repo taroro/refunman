@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "171621046852",
+    "firebase_url": "https://refun-me-and-man-1538806600467.firebaseio.com",
+    "project_id": "refun-me-and-man-1538806600467",
+    "storage_bucket": "refun-me-and-man-1538806600467.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171621046852:android:a062f7655a390b50",
+        "android_client_info": {
+          "package_name": "com.refunman"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBav-zIAG_bG96fZR6Mh0zvt2MRe7DOEck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "171621046852-1k8jqe2ta958m321iekch4moboh2nr9j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "171621046852-1d59500bgb211rg4uuinq7mjbuh8t7mm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.refun.man"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171621046852:android:83df7809385d5de7",
+        "android_client_info": {
+          "package_name": "com.refunme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBav-zIAG_bG96fZR6Mh0zvt2MRe7DOEck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "171621046852-1k8jqe2ta958m321iekch4moboh2nr9j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "171621046852-1d59500bgb211rg4uuinq7mjbuh8t7mm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.refun.man"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

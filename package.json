@@ -10,7 +10,8 @@
   "dependencies": {
     "react": "16.8.3",
     "react-native": "0.59.3",
-    "react-native-maps": "^0.23.0"
+    "react-native-firebase": "^5.2.3",
+    "react-native-maps": "github:react-native-community/react-native-maps#master"
   },
   "devDependencies": {
     "@babel/core": "7.4.3",

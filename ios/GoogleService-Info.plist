@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>171621046852-1d59500bgb211rg4uuinq7mjbuh8t7mm.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.171621046852-1d59500bgb211rg4uuinq7mjbuh8t7mm</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCuRCAOb8pxnc1B_yHV8WZBeOf3QywcmZk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>171621046852</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.refun.man</string>
+	<key>PROJECT_ID</key>
+	<string>refun-me-and-man-1538806600467</string>
+	<key>STORAGE_BUCKET</key>
+	<string>refun-me-and-man-1538806600467.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:171621046852:ios:f9569ffaa2c1694f</string>
+	<key>DATABASE_URL</key>
+	<string>https://refun-me-and-man-1538806600467.firebaseio.com</string>
+</dict>
+</plist>
