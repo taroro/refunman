@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {Button, Divider} from 'react-native-paper';
 import {Actions} from 'react-native-router-flux';
+import geolib from 'geolib';
 import firebase from 'react-native-firebase';
 import theme from '../styles/theme.style';
 import styles from '../styles/component.style';
@@ -14,12 +15,33 @@ export default class NewPostList extends Component {
 
     this.state = {
       loading: true,
-      posts: []
+      posts: [],
+      latitude: null,
+      longitude: null,
+      error:null,
+      region: null,
     };
   }
 
   componentDidMount() {
-    this.unsubscribe = this.refPost.onSnapshot(this._onCollectionUpdate) 
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+          region: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
+          },
+        });
+        this.unsubscribe = this.refPost.onSnapshot(this._onCollectionUpdate);
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+    );
   }
 
   componentWillUnmount() {
@@ -52,9 +74,29 @@ export default class NewPostList extends Component {
     }
 
     let postDisplayArray = this.state.posts.map((post, key) => {
+      let distance = geolib.getDistance(
+        {latitude: this.state.latitude, longitude:this.state.longitude},
+        {latitude: post.latitude, longitude: post.longitude}
+      );
+      //console.warn(this.state.latitude+" "+post.latitude)
       return (
         <TouchableOpacity onPress={() => this._goToQuantitySelect(post.key)} key={"post"+key}>
-          <View style={[styles.postList]} key={key}><Text style={[styles.textNormalGreen]}>{post.latitude}</Text></View>
+          <View style={[styles.postList, {flexDirection:"column"}]} key={key}>
+            <View style={{flex:2, flexDirection:"row"}}>
+              <View style={{flex: 1, flexDirection:"column"}}>
+                <Text style={[styles.textNormalGreen]}>{distance/1000}</Text>
+                <Text style={[styles.textTiny, {color: theme.FONT_PRIMARY_COLOR, flexWrap:"wrap", justifyContent:"center"}]}>อ.เมือง จ.อุบลราชธานี</Text>
+              </View>
+              <View style={{flex: 1, flexDirection:"column"}}>
+                <Text style={[styles.textNormalGreen]}>{distance/1000}</Text>
+              </View>
+              <View style={{flex: 1, flexDirection:"column"}}>
+                <Text style={[styles.textNormalGreen]}>{distance/1000}</Text>
+              </View>
+            </View>
+            <View style={{flex:1, alignItems:"center"}}><Text style={[styles.textTiny]}>ประกาศวันนี้</Text></View>
+          
+          </View>
         </TouchableOpacity>
       )
     })
