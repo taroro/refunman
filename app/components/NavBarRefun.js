@@ -14,11 +14,12 @@ class NavBarRefun extends Component {
 
     render () {
         return (
-            <View style={{ height:60 }}>
+            <View style={{ height:55 }}>
                 <Appbar.Header 
                     style={{ 
                         textAlign: 'center', 
-                        backgroundColor: theme.PRIMARY_COLOR 
+                        backgroundColor: theme.PRIMARY_COLOR, 
+                        marginBottom: 0
                     }}>
                     <Appbar.Action 
                         icon="close" 

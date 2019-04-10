@@ -129,7 +129,31 @@ export default StyleSheet.create({
         flexWrap: "wrap",
         alignItems: "stretch"
     },
-    textCategoryNormalBox: {
-
+    tabbar: {
+        backgroundColor: theme.COLOR_WHITE,
+    },
+    indicator: {
+        backgroundColor: theme.COLOR_LIGHTGREEN,
+    },
+    tabLabel: {
+        fontFamily: theme.FONT_FAMILY,
+        fontSize: theme.FONT_SIZE_MEDIUM,
+        textAlign: 'center',
+    },
+    postList: {
+        borderRadius: 10,
+        width: "90%",
+        height: 120,
+        marginTop: 10,
+        marginLeft: 15,
+        marginRight: 15,
+        alignItems: "stretch",
+        borderWidth: 2,
+        borderColor: theme.PRIMARY_COLOR,
+        backgroundColor: theme.COLOR_WHITE,
+        paddingTop: 12,
+        paddingBottom: 12,
+        paddingLeft: 16,
+        paddingRight: 16,
     }
 });
