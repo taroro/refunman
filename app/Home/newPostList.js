@@ -3,6 +3,8 @@ import {Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity} from 'rea
 import {Button, Divider} from 'react-native-paper';
 import {Actions} from 'react-native-router-flux';
 import geolib from 'geolib';
+import { DistanceFormat } from '../helpers/DistanceFormat'
+import { DateFormat } from '../helpers/DateFormat';
 import firebase from 'react-native-firebase';
 import theme from '../styles/theme.style';
 import styles from '../styles/component.style';
@@ -78,23 +80,27 @@ export default class NewPostList extends Component {
         {latitude: this.state.latitude, longitude:this.state.longitude},
         {latitude: post.latitude, longitude: post.longitude}
       );
-      //console.warn(this.state.latitude+" "+post.latitude)
+      let date = DateFormat(post.available_datetime);
+      let postDate = DateFormat(post.post_datetime);
       return (
         <TouchableOpacity onPress={() => this._goToQuantitySelect(post.key)} key={"post"+key}>
           <View style={[styles.postList, {flexDirection:"column"}]} key={key}>
-            <View style={{flex:2, flexDirection:"row"}}>
-              <View style={{flex: 1, flexDirection:"column"}}>
-                <Text style={[styles.textNormalGreen]}>{distance/1000}</Text>
-                <Text style={[styles.textTiny, {color: theme.FONT_PRIMARY_COLOR, flexWrap:"wrap", justifyContent:"center"}]}>อ.เมือง จ.อุบลราชธานี</Text>
+            <View style={{flex:2, flexDirection:"row", marginTop:10, marginBottom:10}}>
+              <View style={{flex: 3, flexDirection:"column", justifyContent:"center", alignItems:"center", marginRight:10}}>
+                <Text style={[styles.textExtraLarge, {color: theme.PRIMARY_COLOR, flexWrap:"wrap", justifyContent:"center", fontWeight:"bold"}]}>{DistanceFormat(distance)}</Text>
+                <Text style={[styles.textTiny, {color: theme.PRIMARY_COLOR, flexWrap:"wrap", justifyContent:"center"}]}>อ.เมือง จ.อุบลราชธานี</Text>
               </View>
-              <View style={{flex: 1, flexDirection:"column"}}>
-                <Text style={[styles.textNormalGreen]}>{distance/1000}</Text>
+              <View style={{borderLeftWidth:1, borderLeftColor:theme.FONT_PRIMARY_COLOR}} />
+              <View style={{flex: 2, flexDirection:"column", justifyContent:"center", alignItems:"center", marginLeft:10, marginRight:10}}>
+                <Text style={[styles.textExtraLarge, {color: theme.PRIMARY_COLOR, flexWrap:"wrap", justifyContent:"center", fontWeight:"bold"}]}>{date.today?"วันนี้":date.dayShortText}</Text>
+                <Text style={[styles.textTiny, {color: theme.PRIMARY_COLOR, flexWrap:"wrap", justifyContent:"center"}]}>{date.dateNum+" "+date.monthShortText+" "+date.year}</Text>
               </View>
-              <View style={{flex: 1, flexDirection:"column"}}>
-                <Text style={[styles.textNormalGreen]}>{distance/1000}</Text>
+              <View style={{borderLeftWidth:1, borderLeftColor:theme.FONT_PRIMARY_COLOR}} />
+              <View style={{flex: 1, flexDirection:"column", marginLeft:10}}>
+                <Text style={[styles.textNormalGreen]}></Text>
               </View>
             </View>
-            <View style={{flex:1, alignItems:"center"}}><Text style={[styles.textTiny]}>ประกาศวันนี้</Text></View>
+            <View style={{flex:1, alignItems:"center", marginTop:15}}><Text style={[styles.textTiny]}>ประกาศ{postDate.today?"วันนี้":"เมื่อวัน"+postDate.dayFullText+"ที่ "+postDate.dateNum+" "+postDate.monthFullText+" "+postDate.year} {postDate.timeText+" น."}</Text></View>
           
           </View>
         </TouchableOpacity>
@@ -104,7 +110,7 @@ export default class NewPostList extends Component {
     return (
       <View style={{flex: 1}}>
           <ScrollView>
-            <View style={{alignItems:"stretch"}}>{postDisplayArray}</View>
+            <View style={{alignItems:"stretch", justifyContent:"center", padding:10}}>{postDisplayArray}</View>
           </ScrollView>
       </View>
     );

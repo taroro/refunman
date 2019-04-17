@@ -54,7 +54,6 @@ export default class Home extends Component<*, State> {
     );
   };
 
-
   _renderScene = SceneMap({
     newpost: NewPostList,
     waiting: WaitingList,

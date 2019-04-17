@@ -11,7 +11,7 @@ export default StyleSheet.create({
     scrollView: {
         flexGrow: 1,
         flex: 1,
-        backgroundColor: theme.BACKGROUND_PRIMARY_COLOR,
+        backgroundColor: theme.COLOR_LIGHTGREY,
     },
     map: {
         ...StyleSheet.absoluteFillObject,
@@ -142,11 +142,8 @@ export default StyleSheet.create({
     },
     postList: {
         borderRadius: 10,
-        width: "90%",
+        width: "100%",
         height: 120,
-        marginTop: 10,
-        marginLeft: 15,
-        marginRight: 15,
         alignItems: "stretch",
         borderWidth: 2,
         borderColor: theme.PRIMARY_COLOR,
@@ -155,5 +152,6 @@ export default StyleSheet.create({
         paddingBottom: 12,
         paddingLeft: 16,
         paddingRight: 16,
+        marginBottom:15
     }
 });
