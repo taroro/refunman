@@ -6,7 +6,7 @@ import theme from '../styles/theme.style';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.BACKGROUND_PRIMARY_COLOR,
+        backgroundColor: theme.COLOR_LIGHTGREY,
     },
     scrollView: {
         flexGrow: 1,
@@ -16,6 +16,12 @@ export default StyleSheet.create({
     map: {
         ...StyleSheet.absoluteFillObject,
         position: 'absolute'
+    },
+    textLargest: {
+        color: theme.FONT_PRIMARY_COLOR,
+        fontFamily: theme.FONT_FAMILY,
+        fontSize: theme.FONT_SIZE_LARGEST,
+        textAlign: 'left',
     },
     textExtraLarge: {
         color: theme.FONT_PRIMARY_COLOR,
@@ -104,8 +110,8 @@ export default StyleSheet.create({
     itemRowPost: {
         flexDirection: "row",
         backgroundColor: theme.COLOR_WHITE,
-        paddingTop: 20,
-        paddingBottom: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
         width: "100%"
     }, 
     categoryNormalBox: {
@@ -133,7 +139,7 @@ export default StyleSheet.create({
         backgroundColor: theme.COLOR_WHITE,
     },
     indicator: {
-        backgroundColor: theme.COLOR_LIGHTGREEN,
+        backgroundColor: theme.PRIMARY_COLOR,
     },
     tabLabel: {
         fontFamily: theme.FONT_FAMILY,
@@ -143,15 +149,18 @@ export default StyleSheet.create({
     postList: {
         borderRadius: 10,
         width: "100%",
-        height: 120,
         alignItems: "stretch",
-        borderWidth: 2,
+        borderWidth: 0,
         borderColor: theme.PRIMARY_COLOR,
         backgroundColor: theme.COLOR_WHITE,
         paddingTop: 12,
         paddingBottom: 12,
         paddingLeft: 16,
         paddingRight: 16,
-        marginBottom:15
+        marginBottom:15,
+        shadowColor: theme.BACKGROUND_PRIMARY_COLOR,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.9,
+        shadowRadius: 2,
     }
 });
