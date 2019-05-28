@@ -9,11 +9,12 @@ import {Appbar} from 'react-native-paper'
 import firebase from 'react-native-firebase'
 import theme from '../styles/theme.style'
 import styles from '../styles/component.style'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class PostDetail extends Component {
   constructor(props) {
     super(props)
-    this.unsubscribePost = null
+    this.unsubscribePostDetail = null
     this.refPostDocument = firebase.firestore().collection('post').doc(this.props.postId)
 
     this.state = {
@@ -34,17 +35,17 @@ export default class PostDetail extends Component {
         this.setState({
           deviceLatitude: position.coords.latitude,
           deviceLongitude: position.coords.longitude,
-          deviceLocationError: null
+          deviceLocationError: null,
+          loading: false
         })
-        this.unsubscribePost = this.refPostDocument.onSnapshot(this._onPostUpdate)
+        this.unsubscribePostDetail = this.refPostDocument.onSnapshot(this._onPostUpdate)
       },
       (error) => this.setState({ error: error.message }),
-      {enableHighAccuracy: true, timeout: 5000, maximumAge: 1000},
     )
   }
 
   componentWillUnmount() {
-    this.unsubscribePost()
+    this.unsubscribePostDetail()
   }
 
   _goToQuotation = () => {
@@ -54,6 +55,7 @@ export default class PostDetail extends Component {
   }
 
   _onPostUpdate = (postSnapshot) => {
+    this.setState({loading: true})
     var promiseItems = new Promise((resolve, reject) => {
       this.refPostDocument.collection('items').get().then((itemCollection) => {
         var items = [];
@@ -87,23 +89,21 @@ export default class PostDetail extends Component {
 
     var postData = postSnapshot.data();
     Promise.all([promiseItems, promisePhotos]).then(([items, photos]) => {
-      this.setState(prevState => {
-        return {
-          postDetail: {
-            id: postSnapshot.id,
-            availableDateTime: postData.available_datetime,
-            latitude: postData.latitude,
-            longitude: postData.longitude,
-            postDateTime: postData.post_datetime,
-            postType: postData.post_type,
-            refunMeId: postData.refunme_id,
-            shortAddress: postData.short_address,
-            fullAddress: postData.full_address,
-          },
-          postItems: [...prevState.postItems, ...items],
-          postPhotos: [...prevState.postPhotos, ...photos],
-          loading: false
-        }
+      this.setState({
+        postDetail: {
+          id: postSnapshot.id,
+          availableDateTime: postData.available_datetime,
+          latitude: postData.latitude,
+          longitude: postData.longitude,
+          postDateTime: postData.post_datetime,
+          postType: postData.post_type,
+          refunMeId: postData.refunme_id,
+          shortAddress: postData.short_address,
+          fullAddress: postData.full_address,
+        },
+        postItems: items,
+        postPhotos: photos,
+        loading: false
       })
     })
   }
@@ -160,6 +160,12 @@ export default class PostDetail extends Component {
           </Appbar.Header>
         </View>
         <View style={{flex: 1}}>
+          <Spinner
+            visible={this.state.loading}
+            animation={'fade'}
+            textContent={'รอสักครู่...'}
+            textStyle={{color:theme.PRIMARY_COLOR, fontFamily: theme.FONT_FAMILY, fontSize: theme.FONT_SIZE_LARGE, fontWeight: "normal"}}
+          />
           <ScrollView>
             {(postDetail == null)?null:
             <View style={{marginTop: 20, marginLeft: 15, marginRight: 15}}>

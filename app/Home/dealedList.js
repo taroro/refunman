@@ -6,6 +6,7 @@ import firebase from 'react-native-firebase'
 import theme from '../styles/theme.style'
 import styles from '../styles/component.style'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class DealedList extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ export default class DealedList extends Component {
   }
 
   _onQuotationsCollectionUpdate = (quotationsSnapshot) => {
+    this.setState({loading: true})
     var promises = [];
     quotationsSnapshot.forEach(quotation => {
       var quotationId = quotation.id
@@ -76,10 +78,6 @@ export default class DealedList extends Component {
   }
 
   render() {
-    if(this.state.loading) {
-      return null
-    }
-      
     var quotationDisplayArray = this.state.quotations.map((quotation, key) => {
       var date = DateFormat(quotation.availableDatetime)
       var postDate = DateFormat(quotation.postDatetime)
@@ -116,9 +114,15 @@ export default class DealedList extends Component {
 
     return (
       <View style={{flex: 1}}>
+        <Spinner
+          visible={this.state.loading}
+          animation={'fade'}
+          textContent={'รอสักครู่...'}
+          textStyle={{color:theme.PRIMARY_COLOR, fontFamily: theme.FONT_FAMILY, fontSize: theme.FONT_SIZE_LARGE, fontWeight: "normal"}}
+        />
         <ScrollView>
           <View style={{alignItems: 'stretch', justifyContent: 'center', padding: 10}}>
-            {(quotationDisplayArray.length > 0 || !this.state.loading)?
+            {(quotationDisplayArray.length > 0 && !this.state.loading)?
               quotationDisplayArray
               :<Text style={[styles.textNormal, {width: '100%', padding:10, textAlign: 'center'}]}>ยังไม่มีรายการ</Text>
             }

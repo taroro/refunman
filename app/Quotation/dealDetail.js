@@ -10,13 +10,14 @@ import firebase from 'react-native-firebase'
 import theme from '../styles/theme.style'
 import styles from '../styles/component.style'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import moment from 'moment';
+import moment from 'moment'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class DealDetail extends Component {
   constructor(props) {
     super(props)
-    this.unsubscribePost = null
-    this.unsubscribeChat = null
+    this.unsubscribePostDealDetail = null
+    this.unsubscribeChatDealDetail = null
     this.refPostDocument = firebase.firestore().collection('post').doc(this.props.postId)
     this.refQuotation = firebase.firestore().collection('quotation').doc(this.props.quotationId)
     this.refChatCollection = this.refQuotation.collection('chat').orderBy('send_datetime')
@@ -48,17 +49,16 @@ export default class DealDetail extends Component {
           deviceLongitude: position.coords.longitude,
           deviceLocationError: null
         })
-        this.unsubscribePost = this.refPostDocument.onSnapshot(this._onPostUpdate);
-        this.unsubscribeChat = this.refChatCollection.onSnapshot(this._onChatUpdate);
+        this.unsubscribePostDealDetail = this.refPostDocument.onSnapshot(this._onPostUpdate);
+        this.unsubscribeChatDealDetail = this.refChatCollection.onSnapshot(this._onChatUpdate);
       },
       (error) => this.setState({ error: error.message }),
-      {enableHighAccuracy: false, timeout: 200000, maximumAge: 1000},
     );
   }
 
   componentWillUnmount() {
-    this.unsubscribePost();
-    this.unsubscribeChat();
+    this.unsubscribePostDealDetail();
+    this.unsubscribeChatDealDetail();
   }
 
   _onChatUpdate = (chatsCollection) => {
@@ -195,7 +195,7 @@ export default class DealDetail extends Component {
   _sendMessage() {
     this.refQuotation.collection('chat').add({
       message: this.state.message,
-      send_datetime: moment(new Date()).format('DD/MM/YYYY HH:mm'),
+      send_datetime: moment(new Date()).format('DD/MM/YYYY HH:mm:ss'),
       sender: this.state.quotationDetail.refunManId,
       receiver: this.state.quotationDetail.refunMeId,
     }).then((doc) => {
@@ -215,12 +215,12 @@ export default class DealDetail extends Component {
         <View key={'chat'+key} style={{width: '100%', margin: 10}}>
           {(this.state.chatSender == chat.sender)?
           <View style={{width: '100%', alignItems: 'flex-end'}}>
-            <View style={{width: '65%', borderRadius: 10, backgroundColor:theme.PRIMARY_COLOR, padding: 10, marginRight: 20}}>
+            <View style={{width: '65%', borderRadius: 20, backgroundColor:theme.PRIMARY_COLOR, borderTopEndRadius: 0, padding: 10, marginRight: 20}}>
             <Text style={[styles.textNormal, {color: theme.COLOR_WHITE}]}>{chat.message}</Text></View>
           </View>
           :
           <View style={{width: '100%', alignItems: 'flex-start'}}>
-            <View style={{width: '65%', borderRadius: 10, backgroundColor:theme.COLOR_WHITE, padding: 10, marginRight: 20}}>
+          <View style={{width: '65%', borderRadius: 20, backgroundColor:theme.COLOR_WHITE, borderTopStartRadius: 0, padding: 10, marginRight: 20}}>
             <Text style={[styles.textNormal, {color: theme.COLOR_DARKGREY}]}>{chat.message}</Text></View>
           </View>
           }
@@ -299,6 +299,12 @@ export default class DealDetail extends Component {
           </Appbar.Header>
         </View>
         <View style={{flex: 1}}>
+          <Spinner
+            visible={this.state.loading}
+            animation={'fade'}
+            textContent={'รอสักครู่...'}
+            textStyle={{color:theme.PRIMARY_COLOR, fontFamily: theme.FONT_FAMILY, fontSize: theme.FONT_SIZE_LARGE, fontWeight: "normal"}}
+          />
           <ScrollView
             ref={ref => this.scrollView = ref}
             onContentSizeChange={(contentWidth, contentHeight)=>{        
@@ -323,25 +329,19 @@ export default class DealDetail extends Component {
                   <View>
                     <View style={{flex: 3, flexDirection: 'row', marginTop: 5, marginBottom: 5, justifyContent: 'center', alignItems: 'center'}}>
                       <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'flex-start'}}>
-                        <View style={{flexDirection: 'column', alignItems: 'center', backgroundColor: theme.PRIMARY_COLOR, paddingBottom: 0, width: '100%', borderRadius: 20, marginLeft:20, marginTop:10}}>
-                          <Text style={[styles.textLargest, {color: theme.COLOR_WHITE, textAlign: 'center', marginBottom:-15}]}>{textDistance}</Text>
-                          <Text style= {[styles.textExtraLarge, {color: theme.COLOR_WHITE, textAlign: 'center'}]}>KM</Text>
+                        <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', backgroundColor: theme.PRIMARY_COLOR, paddingBottom: 0, width: '100%', borderRadius: 20, marginLeft:20, marginTop:10, minHeight: 90}}>
+                          <Text style={[styles.textHeader, {color: theme.COLOR_WHITE, textAlign: 'center'}]}>{date.dayFullText}</Text>
+                          <Text style= {[styles.textLargest, {color: theme.COLOR_WHITE, textAlign: 'center', marginTop: -15, marginBottom: -10}]}>{date.dateNum}</Text>
                         </View>
                       </View>
                       <View style={{borderLeftWidth: 2, borderLeftColor: theme.BACKGROUND_PRIMARY_COLOR, height: 105, marginLeft: 20, marginRight: 15, marginTop:10}} />
-                      <View style={{flex: 2, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
-                        <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-                          <Text style={[styles.textExtraLarge, {color: theme.PRIMARY_COLOR, textAlign: 'left'}]}>วัน{date.dateShow}ที่ {date.dateNum}</Text>
-                        </View>
-                        <View style={{flexDirection: 'row', marginTop: -5}}>
-                          <Text style={[styles.textNormal, {color: theme.COLOR_DARKGREY, textAlign: 'center'}]}>{date.monthFullText+' '+date.year}</Text>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                          <Text style={[styles.textTiny, {color: theme.COLOR_DARKGREY, textAlign: 'left'}]}>{postDetail.shortAddress}</Text>
-                        </View>
+                      <View style={{flex: 2, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', marginTop: 10}}>
+                        <Text style={[styles.textHeader, {color: theme.COLOR_DARKGREY, textAlign: 'left'}]}>{date.monthShortText+' '+date.year}</Text>
+                        <Text style={[styles.textLargest, {color: theme.PRIMARY_COLOR, textAlign: 'left', marginTop: -15}]}>{date.timeText}</Text>
+                        <Text style={[styles.textTiny, {color: theme.COLOR_DARKGREY, textAlign: 'left', marginTop: -15}]}>{postDetail.shortAddress}</Text>
                       </View>
                     </View>
-                    <View style={{flex: 1, alignItems: 'center', marginTop: 10}}>
+                    <View style={{flex: 1, alignItems: 'center', marginTop: 0}}>
                       <Text style={[styles.textTiny]}>ประกาศ{postDate.today?'วันนี้':'เมื่อวัน'+postDate.dayFullText+'ที่ '+postDate.dateNum+' '+postDate.monthFullText+' '+postDate.year} {postDate.timeText+' น.'}</Text>
                     </View>
                   { this.state.showDetail?
@@ -377,6 +377,7 @@ export default class DealDetail extends Component {
               </View>
             </View>
             }
+            <View><Text style={[styles.textHeader, {paddingLeft: 15, paddingTop: 10, color: theme.PRIMARY_COLOR}]}>พูดคุยกับผู้ขาย</Text></View>
             <View style={{flex: 1, widht: '100%', margin: 10}}>{chatsDisplay}</View>
           </ScrollView>
           {(this.state.quotationDetail.status == 1)?
@@ -398,7 +399,7 @@ export default class DealDetail extends Component {
               </View>
               <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TextInput
-                  style={{height:40, borderRadius:10, width: '100%', backgroundColor: theme.COLOR_WHITE, paddingLeft:10, paddingRight:10,}}
+                  style={{height:40, borderWidth: 1, borderColor: theme.COLOR_GREY, borderRadius:10, width: '100%', backgroundColor: theme.COLOR_WHITE, paddingLeft:10, paddingRight:10,}}
                   onChangeText={(message) => this.setState({message})}
                   value={this.state.message}
                   autoFocus

@@ -11,11 +11,12 @@ import theme from '../styles/theme.style'
 import styles from '../styles/component.style'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import ItemList from '../Quotation/itemList'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class QuotationStep1 extends Component {
   constructor(props) {
     super(props)
-    this.unsubscribePost = null
+    this.unsubscribePostQuotationIndex = null
     this.refPostDocument = firebase.firestore().collection('post').doc(this.props.postId)
     this.refQuotation = firebase.firestore().collection('quotation')
       .where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
@@ -44,7 +45,7 @@ export default class QuotationStep1 extends Component {
           deviceLongitude: position.coords.longitude,
           deviceLocationError: null
         })
-        this.unsubscribe = this.refPostDocument.onSnapshot(this._onPostUpdate);
+        this.unsubscribePostQuotationIndex = this.refPostDocument.onSnapshot(this._onPostUpdate);
       },
       (error) => this.setState({ error: error.message }),
       {enableHighAccuracy: false, timeout: 200000, maximumAge: 1000},
@@ -52,7 +53,7 @@ export default class QuotationStep1 extends Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe()
+    this.unsubscribePostQuotationIndex()
   }
 
   _onPostUpdate = (postSnapshot) => {
@@ -188,6 +189,12 @@ export default class QuotationStep1 extends Component {
           </Appbar.Header>
         </View>
         <View style={{flex: 1}}>
+          <Spinner
+            visible={this.state.loading}
+            animation={'fade'}
+            textContent={'รอสักครู่...'}
+            textStyle={{color:theme.PRIMARY_COLOR, fontFamily: theme.FONT_FAMILY, fontSize: theme.FONT_SIZE_LARGE, fontWeight: "normal"}}
+          />
           <ScrollView>
             {(postDetail == null)?null:
             <View style={{marginTop: 20, marginLeft: 15, marginRight: 15}}>

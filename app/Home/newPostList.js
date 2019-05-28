@@ -7,6 +7,7 @@ import { DateFormat } from '../helpers/DateFormat'
 import firebase from 'react-native-firebase'
 import theme from '../styles/theme.style'
 import styles from '../styles/component.style'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 export default class NewPostList extends Component {
   constructor(props) {
@@ -38,11 +39,9 @@ export default class NewPostList extends Component {
           this.unsubscribeNewPostList = this.refPost.onSnapshot(this._onPostCollectionUpdate)
         },
         (error) => {
-          this.setState({
-            deviceLocationError: error.message
-          })
+          this.setState({deviceLocationError: error.message})
         },
-        {enableHighAccuracy: true, timeout: 5000, maximumAge: 1000},
+        //{enableHighAccuracy: false, timeout: 5000, maximumAge: 1000},
       )
     } else {
     }
@@ -53,6 +52,7 @@ export default class NewPostList extends Component {
   }
 
   _onPostCollectionUpdate = (postsSnapshot) => {
+    this.setState({loading: true})
     var promises = [];
     postsSnapshot.forEach(post => {
       var postId = post.id
@@ -99,10 +99,6 @@ export default class NewPostList extends Component {
   }
 
   render() {
-    if(this.state.loading) {
-      return null
-    }
-
     var postDisplayArray = this.state.posts.map((post, key) => {
       var distance = geolib.getDistance(
         {latitude: this.state.deviceLatitude, longitude: this.state.deviceLongitude},
@@ -144,15 +140,21 @@ export default class NewPostList extends Component {
 
     return (
       <View style={{flex: 1}}>
+        <Spinner
+          visible={this.state.loading}
+          animation={'fade'}
+          textContent={'รอสักครู่...'}
+          textStyle={{color: theme.PRIMARY_COLOR, fontFamily: theme.FONT_FAMILY, fontSize: theme.FONT_SIZE_LARGE, fontWeight: "normal"}}
+        />
         <ScrollView>
           <View style={{alignItems: 'stretch', justifyContent: 'center', padding: 10}}>
-            {(postDisplayArray.length > 0 || !this.state.loading)?
+            {(postDisplayArray.length > 0 && !this.state.loading)?
               postDisplayArray
-              :<Text style={[styles.textNormal, {width: '100%', padding:10, textAlign: 'center'}]}>ยังไม่มีประกาศใหม่</Text>
+              :<Text style={[styles.textNormal, {width: '100%', padding: 10, textAlign: 'center'}]}>ยังไม่มีประกาศใหม่</Text>
             }
           </View>
         </ScrollView>
       </View>
-    );
+    )
   }
 }

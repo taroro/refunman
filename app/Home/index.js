@@ -24,7 +24,7 @@ export default class Home extends Component<*, State> {
       { key: 'waiting', title: 'รอการตอบรับ', icon: 'sms' },
       { key: 'dealed', title: 'รอรับซื้อ', icon: 'check-circle' },
     ],
-  };
+  }
 
   _handleIndexChange = index =>
     this.setState({
@@ -54,16 +54,16 @@ export default class Home extends Component<*, State> {
   }
 
   _renderScene = SceneMap({
-    newpost:NewPostList,
-    waiting:WaitingList,
-    dealed:DealedList,
+    newpost: NewPostList,
+    waiting: WaitingList,
+    dealed: DealedList,
   })
 
   render() {
     return (
       <SafeAreaView style={[styles.container]} forceInset={{top: 'always'}}>
         <View style={{height: 55}}>
-          <Appbar.Header style={{textAlign: 'center', backgroundColor: theme.PRIMARY_COLOR, marginBottom:0}}>
+          <Appbar.Header style={{textAlign: 'center', backgroundColor: theme.PRIMARY_COLOR, marginBottom: 0}}>
             <Appbar.Action icon="menu" color={theme.COLOR_WHITE} onPress={this._onPressMenuButton} />
             <Appbar.Content 
               title="REFUN MAN"
