@@ -19,8 +19,8 @@ export default class QuotationStep1 extends Component {
     this.unsubscribePostQuotationIndex = null
     this.refPostDocument = firebase.firestore().collection('post').doc(this.props.postId)
     this.refQuotation = firebase.firestore().collection('quotation')
-      .where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
-      //.where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
+      //.where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
+      .where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
       .where('post_id', '==', this.props.postId)
 
     this.state = {

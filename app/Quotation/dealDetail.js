@@ -377,8 +377,12 @@ export default class DealDetail extends Component {
               </View>
             </View>
             }
-            <View><Text style={[styles.textHeader, {paddingLeft: 15, paddingTop: 10, color: theme.PRIMARY_COLOR}]}>พูดคุยกับผู้ขาย</Text></View>
-            <View style={{flex: 1, widht: '100%', margin: 10}}>{chatsDisplay}</View>
+            {(this.state.quotationDetail.status == 2)?
+            <View>
+              <View><Text style={[styles.textHeader, {paddingLeft: 15, paddingTop: 10, color: theme.PRIMARY_COLOR}]}>พูดคุยกับผู้ขาย</Text></View>
+              <View style={{flex: 1, widht: '100%', margin: 10}}>{chatsDisplay}</View>
+            </View>:null
+            }
           </ScrollView>
           {(this.state.quotationDetail.status == 1)?
             <View style={{padding: 15, backgroundColor: theme.BACKGROUND_SECONDARY_COLOR}}>

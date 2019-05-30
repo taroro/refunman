@@ -18,8 +18,8 @@ export default class NewPostList extends Component {
     this.state = {
       loading: true,
       posts: [],
-      refunManId: '2npz1Jm961SkAoP13PDS',
-      //refunManId: 'qq8Ots5XZfoqYh4cRNcD',
+      //refunManId: '2npz1Jm961SkAoP13PDS',
+      refunManId: 'qq8Ots5XZfoqYh4cRNcD',
       deviceLatitude: null,
       deviceLongitude: null,
       deviceLocationError: null,
@@ -58,8 +58,8 @@ export default class NewPostList extends Component {
       var postId = post.id
       var postData = post.data()
       var refQuotation = firebase.firestore().collection('quotation')
-        .where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
-        //.where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
+        //.where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
+        .where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
         .where('post_id', '==', postId)
       promises.push(
         refQuotation.get().then((doc) => {

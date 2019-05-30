@@ -13,15 +13,15 @@ export default class WaitingList extends Component {
     super(props)
     this.unsubscribeWaitingList = null
     this.refQuotations = firebase.firestore().collection('quotation')
-      .where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
-      //.where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
+      //.where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
+      .where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
       .where('status', '<', 2)
 
     this.state = {
       loading: true,
       quotations: [],
-      refunManId: '2npz1Jm961SkAoP13PDS',
-      //refunManId: 'qq8Ots5XZfoqYh4cRNcD',
+      //refunManId: '2npz1Jm961SkAoP13PDS',
+      refunManId: 'qq8Ots5XZfoqYh4cRNcD',
     }
   }
 

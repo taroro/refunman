@@ -25,8 +25,8 @@ export default class Confirm extends Component {
     });
     db.collection("quotation").add({
       refunme_id: "qxNhLWm7pdzKAKu83cfQ",
-      refunman_id: "2npz1Jm961SkAoP13PDS",
-      //refunman_id: "qq8Ots5XZfoqYh4cRNcD",
+      //refunman_id: "2npz1Jm961SkAoP13PDS",
+      refunman_id: "qq8Ots5XZfoqYh4cRNcD",
       post_id: this.state.postId,
       sent_datetime: moment(new Date()).format('DD/MM/YYYY HH:mm'),
       status: 0,
