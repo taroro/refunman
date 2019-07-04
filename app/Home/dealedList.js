@@ -13,15 +13,14 @@ export default class DealedList extends Component {
     super(props)
     this.unsubscribeDealedList = null
     this.refQuotations = firebase.firestore().collection('quotation')
-      //.where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
-      .where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
-      .where('status', '==', 2)
+      .where('refunman_id', '==', global.refunManId)
+      .where('status', '>=', 2)
+      .where('status', '<=', 3)
 
     this.state = {
       loading: true,
       quotations: [],
-      //refunManId: '2npz1Jm961SkAoP13PDS',
-      refunManId: 'qq8Ots5XZfoqYh4cRNcD',
+      refunManId: global.refunManId,
     }
   }
 
@@ -86,11 +85,6 @@ export default class DealedList extends Component {
           <View style={[styles.postList, {flexDirection: "column", elevation:(Platform.OS === 'ios'?0:2)}]}>
             <View style={{flex: 3, flexDirection: 'row', marginTop: 5, marginBottom: 5, justifyContent: 'center', alignItems: 'center'}}>
               <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start'}}> 
-                <View style={{flex: 2, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: 5, height: '100%'}}>
-                  <View><Icon name='chat-bubble-outline' size={40} backgroundColor={theme.COLOR_WHITE} color={theme.PRIMARY_COLOR} /></View>
-                  <Text style={[styles.textTiny, {color: theme.PRIMARY_COLOR, textAlign: 'center', width: '100%'}]}>พูดคุย</Text>
-                </View>
-                <View style={{borderLeftWidth: 2, borderLeftColor: theme.BACKGROUND_PRIMARY_COLOR, height: 95}} />
                 <View style={{flex: 3, alignItems: 'center', justifyContent: 'center', width: '100%', marginLeft: 10}}>
                   <View style={{flexDirection: 'column', alignItems: 'center', backgroundColor: theme.PRIMARY_COLOR, padding: 5, width: '100%', borderRadius: 20}}>
                     <Text style={[styles.textHeader, {color: theme.COLOR_WHITE, textAlign: 'center'}]}>{date.dayFullText}</Text>
@@ -102,6 +96,19 @@ export default class DealedList extends Component {
                   <Text style={[styles.textHeader, {color: theme.COLOR_DARKGREY, textAlign: 'left'}]}>{date.monthShortText+' '+date.year}</Text>
                   <Text style={[styles.textLargest, {color: theme.PRIMARY_COLOR, textAlign: 'left', marginTop: -15}]}>{date.timeText}</Text>
                 </View>
+                <View style={{borderLeftWidth: 2, borderLeftColor: theme.BACKGROUND_PRIMARY_COLOR, height: 95}} />
+                  {(quotation.quotationStatus == 2)?
+                  <View style={{flex: 2, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: 5, height: '100%'}}>
+                    <View><Icon name='chat-bubble-outline' size={40} backgroundColor={theme.COLOR_WHITE} color={theme.PRIMARY_COLOR} /></View>
+                    <Text style={[styles.textTiny, {color: theme.PRIMARY_COLOR, textAlign: 'center', width: '100%'}]}>พูดคุย</Text>
+                  </View>:null
+                  }
+                  {(quotation.quotationStatus == 3)?
+                  <View style={{flex: 2, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: 5, height: '100%'}}>
+                    <View><Icon name='check-circle' size={40} backgroundColor={theme.COLOR_WHITE} color={theme.PRIMARY_COLOR} /></View>
+                    <Text style={[styles.textTiny, {color: theme.PRIMARY_COLOR, textAlign: 'center', width: '100%'}]}>เสร็จสิ้น</Text>
+                  </View>:null
+                  }
               </View>
             </View>
             <View style={{flex: 1, alignItems: 'center'}}>

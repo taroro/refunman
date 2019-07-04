@@ -19,8 +19,7 @@ export default class QuotationStep1 extends Component {
     this.unsubscribePostQuotationIndex = null
     this.refPostDocument = firebase.firestore().collection('post').doc(this.props.postId)
     this.refQuotation = firebase.firestore().collection('quotation')
-      //.where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
-      .where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
+      .where('refunman_id', '==', global.refunManId)
       .where('post_id', '==', this.props.postId)
 
     this.state = {
@@ -34,6 +33,7 @@ export default class QuotationStep1 extends Component {
       deviceLocationError:null,
       showDetail: false,
       items: [],
+      refunMeId: ''
     }
   }
 
@@ -114,7 +114,8 @@ export default class QuotationStep1 extends Component {
   _confirmQuotation = () => {
     Actions.confirmquotation({
       postId: this.state.postId,
-      itemArray: this.state.items
+      itemArray: this.state.items,
+      refunMeId: this.state.postDetail.refunMeId
     })
   }
 

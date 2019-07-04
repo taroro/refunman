@@ -32,4 +32,5 @@ export default {
     COLOR_WHITE: "#FFFFFF",
     COLOR_LIGHTGREEN: "#61E6A4",
     COLOR_GREY: "#828282",
+    COLOR_RED: "#F75E71",
 };

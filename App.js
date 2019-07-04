@@ -7,6 +7,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {};
+    global.refunManId = '2npz1Jm961SkAoP13PDS'
+    //global.refunManId = 'qq8Ots5XZfoqYh4cRNcD'
   }
 
   async componentDidMount() {

@@ -25,6 +25,7 @@ export default class DealDetail extends Component {
     this.state = {
       loading: true,
       postId: this.props.postId,
+      quotationId: this.props.quotationId,
       postDetail: null,
       postItems: [],
       postPhotos: [],
@@ -168,6 +169,12 @@ export default class DealDetail extends Component {
     })
   }
 
+  _createReceipt = () => {
+    Actions.receiptstep1({
+      quotationId: this.state.quotationId
+    })
+  }
+
   _acceptedDeal = () => {
     this.refQuotation.update({
       status: 2
@@ -305,11 +312,12 @@ export default class DealDetail extends Component {
             textContent={'รอสักครู่...'}
             textStyle={{color:theme.PRIMARY_COLOR, fontFamily: theme.FONT_FAMILY, fontSize: theme.FONT_SIZE_LARGE, fontWeight: "normal"}}
           />
-          <ScrollView
+          {/* <ScrollView
             ref={ref => this.scrollView = ref}
             onContentSizeChange={(contentWidth, contentHeight)=>{        
                 this.scrollView.scrollToEnd({animated: true});
-            }}>
+            }}> */}
+          <ScrollView>
             {(postDetail == null)?null:
             <View style={{marginTop: 20, marginLeft: 15, marginRight: 15}}>
               <View style={{
@@ -323,7 +331,7 @@ export default class DealDetail extends Component {
                   {(this.state.quotationDetail.status == 0)?
                   <Text style={[styles.textNormal]}>ใบเสนอราคากำลังรอการตอบรับ</Text>
                   :
-                  <Text style={[styles.textHeader, {paddingTop: 10, color: theme.PRIMARY_COLOR}]}>ใบเสนอของคุณได้รับการเลือก</Text>
+                  <Text style={[styles.textHeader, {paddingTop: 10, color: theme.PRIMARY_COLOR}]}>ใบเสนอราคาของคุณได้รับเลือก</Text>
                   }
                 </View>
                   <View>
@@ -377,12 +385,25 @@ export default class DealDetail extends Component {
               </View>
             </View>
             }
-            {(this.state.quotationDetail.status == 2)?
             <View>
-              <View><Text style={[styles.textHeader, {paddingLeft: 15, paddingTop: 10, color: theme.PRIMARY_COLOR}]}>พูดคุยกับผู้ขาย</Text></View>
-              <View style={{flex: 1, widht: '100%', margin: 10}}>{chatsDisplay}</View>
-            </View>:null
-            }
+              {(this.state.quotationDetail.status == 2)?
+              <View style={{paddingLeft: 15, paddingRight: 15, paddingBottom: 0, paddingTop: 10}}>
+                <Button icon="note-add" mode="contained" color={theme.PRIMARY_COLOR} dark={true} onPress={this._createReceipt}>
+                  <Text style={{fontSize: 18, textAlign: "center", fontFamily: theme.FONT_FAMILY, width: "80%"}}>สร้างใบรายการรับซื้อ</Text>
+                </Button>
+              </View>:null
+              }
+              {(this.state.quotationDetail.status == 3)?
+                <View style={{paddingLeft: 15, paddingRight: 15, paddingBottom: 0, paddingTop: 10}}>
+                <Button icon="note-add" mode="contained" color={theme.PRIMARY_COLOR} dark={true} onPress={this._detailReceipt}>
+                  <Text style={{fontSize: 18, textAlign: "center", fontFamily: theme.FONT_FAMILY, width: "80%"}}>ใบรายการรับซื้อ</Text>
+                </Button>
+              </View>:null}
+              <View>
+                <View><Text style={[styles.textHeader, {paddingLeft: 15, paddingTop: 5, color: theme.PRIMARY_COLOR}]}>พูดคุยกับผู้ขาย</Text></View>
+                <View style={{flex: 1, widht: '100%', margin: 10}}>{chatsDisplay}</View>
+              </View>
+            </View>
           </ScrollView>
           {(this.state.quotationDetail.status == 1)?
             <View style={{padding: 15, backgroundColor: theme.BACKGROUND_SECONDARY_COLOR}}>

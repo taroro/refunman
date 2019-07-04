@@ -14,19 +14,19 @@ export default class Confirm extends Component {
     this.state = {
       loading: false,
       postId: this.props.postId,
+      refunmeId: this.props.refunMeId
     };
   }
 
   _finishQuotation = e => {
     e.preventDefault();
     const db = firebase.firestore();
-    db.settings({
+    /*db.settings({
       timestampsInSnapshots: true
-    });
+    });*/
     db.collection("quotation").add({
-      refunme_id: "qxNhLWm7pdzKAKu83cfQ",
-      //refunman_id: "2npz1Jm961SkAoP13PDS",
-      refunman_id: "qq8Ots5XZfoqYh4cRNcD",
+      refunme_id: this.state.refunmeId,
+      refunman_id: global.refunManId,
       post_id: this.state.postId,
       sent_datetime: moment(new Date()).format('DD/MM/YYYY HH:mm'),
       status: 0,

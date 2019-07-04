@@ -18,8 +18,7 @@ export default class NewPostList extends Component {
     this.state = {
       loading: true,
       posts: [],
-      //refunManId: '2npz1Jm961SkAoP13PDS',
-      refunManId: 'qq8Ots5XZfoqYh4cRNcD',
+      refunManId: global.refunManId,
       deviceLatitude: null,
       deviceLongitude: null,
       deviceLocationError: null,
@@ -34,7 +33,7 @@ export default class NewPostList extends Component {
             deviceLocationError: null,
             deviceLatitude: position.coords.latitude,
             deviceLongitude: position.coords.longitude,
-            loading: false,
+            //loading: false,
           })
           this.unsubscribeNewPostList = this.refPost.onSnapshot(this._onPostCollectionUpdate)
         },
@@ -52,14 +51,13 @@ export default class NewPostList extends Component {
   }
 
   _onPostCollectionUpdate = (postsSnapshot) => {
-    this.setState({loading: true})
+    //this.setState({loading: true})
     var promises = [];
     postsSnapshot.forEach(post => {
       var postId = post.id
       var postData = post.data()
       var refQuotation = firebase.firestore().collection('quotation')
-        //.where('refunman_id', '==', '2npz1Jm961SkAoP13PDS')
-        .where('refunman_id', '==', 'qq8Ots5XZfoqYh4cRNcD')
+        .where('refunman_id', '==', global.refunManId)
         .where('post_id', '==', postId)
       promises.push(
         refQuotation.get().then((doc) => {
